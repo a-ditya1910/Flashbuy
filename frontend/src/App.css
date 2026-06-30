@@ -1,0 +1,90 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; }
+
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; background: #1e293b; border-bottom: 1px solid #334155; }
+.logo { font-size: 22px; font-weight: 700; color: #f59e0b; }
+.nav-links { display: flex; gap: 8px; }
+.nav-links button { padding: 8px 16px; border: none; border-radius: 8px; background: #334155; color: #e2e8f0; cursor: pointer; font-size: 14px; }
+.nav-links button.active { background: #f59e0b; color: #0f172a; font-weight: 600; }
+.nav-links button:hover { opacity: 0.85; }
+
+.page { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+.page h2 { font-size: 24px; margin-bottom: 24px; color: #f1f5f9; }
+.empty { color: #64748b; margin-top: 40px; text-align: center; }
+
+.sale-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+.sale-card { background: #1e293b; border-radius: 16px; overflow: hidden; border: 1px solid #334155; }
+.sale-card img { width: 100%; height: 200px; object-fit: cover; background: #334155; }
+.sale-info { padding: 20px; }
+.sale-info h3 { font-size: 18px; margin-bottom: 6px; }
+.desc { color: #94a3b8; font-size: 13px; margin-bottom: 12px; }
+.price { font-size: 22px; font-weight: 700; color: #f59e0b; margin-bottom: 12px; }
+
+.inventory-bar { height: 8px; background: #334155; border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
+.stock { font-size: 12px; color: #94a3b8; margin-bottom: 16px; }
+
+.buy-btn { width: 100%; padding: 12px; background: #f59e0b; color: #0f172a; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; }
+.buy-btn:hover:not(:disabled) { background: #d97706; }
+.buy-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.order-badge { padding: 10px; border-radius: 8px; text-align: center; font-weight: 600; }
+.order-badge.pending { background: #1e3a5f; color: #93c5fd; }
+.order-badge.confirmed { background: #14532d; color: #86efac; }
+
+.orders-list { display: flex; flex-direction: column; gap: 12px; }
+.order-row { display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 20px 24px; border-radius: 12px; border: 1px solid #334155; }
+.product-name { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.order-id { font-size: 12px; color: #64748b; margin-bottom: 2px; font-family: monospace; }
+.order-date { font-size: 12px; color: #64748b; }
+.order-right { text-align: right; }
+.order-right .price { font-size: 18px; font-weight: 700; color: #f59e0b; margin-bottom: 8px; }
+.status-badge { font-size: 13px; font-weight: 600; padding: 4px 12px; border-radius: 20px; }
+.status-badge.confirmed { background: #14532d; color: #86efac; }
+.status-badge.pending { background: #1e3a5f; color: #93c5fd; }
+.status-badge.failed { background: #450a0a; color: #fca5a5; }
+
+/* Invoice button */
+.invoice-btn { margin-top: 8px; display: block; padding: 6px 14px; background: #1e3a5f; color: #93c5fd; border: 1px solid #3b82f6; border-radius: 6px; font-size: 12px; cursor: pointer; }
+.invoice-btn:hover:not(:disabled) { background: #1d4ed8; color: #fff; }
+.invoice-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Admin */
+.admin-btn { background: #7c3aed !important; color: #fff !important; }
+.admin-btn.active { background: #6d28d9 !important; }
+.user-badge { padding: 8px 12px; font-size: 13px; color: #94a3b8; }
+.admin-tabs { display: flex; gap: 8px; margin-bottom: 24px; }
+.admin-tabs button { padding: 10px 20px; border: 1px solid #334155; border-radius: 8px; background: #1e293b; color: #e2e8f0; cursor: pointer; font-size: 14px; }
+.admin-tabs button.active { background: #7c3aed; border-color: #7c3aed; color: #fff; }
+.admin-form { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 32px; max-width: 520px; display: flex; flex-direction: column; gap: 12px; }
+.admin-form h3 { font-size: 18px; color: #f1f5f9; margin-bottom: 4px; }
+.admin-form label { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: -6px; }
+.admin-form input, .admin-form select { padding: 10px 14px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #e2e8f0; font-size: 14px; }
+.admin-form select option { background: #1e293b; }
+.admin-form button { padding: 12px; background: #7c3aed; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 8px; }
+.admin-form button:hover { background: #6d28d9; }
+.admin-msg { padding: 12px 16px; background: #14532d; color: #86efac; border-radius: 8px; margin-bottom: 16px; font-size: 14px; }
+.hint { margin-top: 16px; font-size: 12px; color: #64748b; }
+
+/* Notification Bell */
+.bell-wrap { position: relative; }
+.bell-btn { background: none; border: none; font-size: 20px; cursor: pointer; padding: 6px 10px; border-radius: 8px; position: relative; }
+.bell-btn:hover { background: #334155; }
+.bell-badge { position: absolute; top: 2px; right: 2px; background: #ef4444; color: #fff; font-size: 10px; font-weight: 700; border-radius: 999px; padding: 1px 5px; min-width: 16px; text-align: center; }
+.bell-dropdown { position: absolute; right: 0; top: 44px; width: 340px; background: #1e293b; border: 1px solid #334155; border-radius: 12px; z-index: 100; box-shadow: 0 10px 40px rgba(0,0,0,0.4); overflow: hidden; }
+.bell-title { padding: 14px 16px 10px; font-size: 13px; font-weight: 600; color: #94a3b8; border-bottom: 1px solid #334155; margin: 0; }
+.bell-empty { padding: 20px 16px; color: #64748b; font-size: 13px; text-align: center; margin: 0; }
+.bell-item { display: flex; gap: 10px; align-items: flex-start; padding: 12px 16px; border-bottom: 1px solid #1e293b; background: #0f172a; }
+.bell-item.unread { background: #1e3a5f; }
+.bell-item span { font-size: 16px; margin-top: 2px; flex-shrink: 0; }
+.bell-msg { font-size: 13px; color: #e2e8f0; margin: 0 0 4px; line-height: 1.4; }
+.bell-time { font-size: 11px; color: #64748b; margin: 0; }
+
+.login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #0f172a; }
+.login-card { background: #1e293b; padding: 48px; border-radius: 20px; border: 1px solid #334155; width: 100%; max-width: 400px; text-align: center; }
+.login-card h1 { font-size: 32px; color: #f59e0b; margin-bottom: 8px; }
+.tagline { color: #64748b; margin-bottom: 32px; }
+.login-card form { display: flex; flex-direction: column; gap: 12px; }
+.login-card input { padding: 12px 16px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #e2e8f0; font-size: 15px; }
+.login-card button { padding: 12px; background: #f59e0b; color: #0f172a; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 8px; }
+.error { color: #f87171; font-size: 14px; }
