@@ -12,7 +12,7 @@ A distributed flash sale system built with 3 Node.js microservices, event-driven
 React Frontend (Vercel)
         │
         ▼
-┌──────────────────┐   order-events   ┌───────────────────┐   payment-events   ┌────────────────────────┐
+┌──────────────────┐   order-events   ┌───────────────────┐   payment-events    ┌────────────────────────┐
 │  order-service   │ ───────────────► │  payment-service  │ ──────────────────► │  notification-service  │
 │  (port 4001)     │ ◄─────────────── │  (port 4002)      │                     │  (port 4003)           │
 └──────────────────┘  payment-events  └───────────────────┘                     └────────────────────────┘
@@ -185,8 +185,6 @@ VITE_NOTIFICATION_SERVICE_URL=https://flashbuy-notification-service.onrender.com
 VITE_PAYMENT_SERVICE_URL=https://flashbuy-payment-service.onrender.com
 ```
 
-After adding env vars on Vercel, redeploy for them to take effect.
-
 ### Create an admin account (production)
 
 1. Open https://flashbuy-mu.vercel.app
@@ -194,11 +192,6 @@ After adding env vars on Vercel, redeploy for them to take effect.
 3. Fill in name, email, password
 4. Enter admin code: `flashbuy-super-secret-key-2026`
 5. Click **Create Account**
-
-### Note on Render free tier
-
-Render free services spin down after 15 minutes of inactivity. The first request after sleep takes ~30–60 seconds. Use [UptimeRobot](https://uptimerobot.com) to ping `/health` on each service every 5 minutes to keep them awake.
-
 ---
 
 ## Database schema
@@ -211,12 +204,3 @@ orders (id, user_id, sale_id, product_id, status, created_at)
 payments (id, order_id, user_id, amount, status, reason, created_at)
 notifications (id, user_id, message, type, read, created_at)
 ```
-
----
-
-## Key design decisions
-
-- **SAGA choreography** — no central orchestrator; services communicate purely via Kafka events (`order-events`, `payment-events`)
-- **Redis inventory** — flash sale slots stored in Redis with `DECR` for atomic locking; restored via compensating transaction on payment failure
-- **10% payment failure rate** — intentional, simulates real payment failures for demo purposes
-- **No `updated_at` on orders** — the `orders` table intentionally has no `updated_at` column; status updates use a single `SET status = ?` query
