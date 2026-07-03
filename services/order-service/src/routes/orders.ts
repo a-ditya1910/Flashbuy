@@ -14,7 +14,7 @@ router.post('/buy/:saleId', auth, async (req: AuthRequest, res: Response) => {
   const [rows]: any = await pool.execute(
     `SELECT s.*, p.name as product_name, p.price FROM sales s
      JOIN products p ON s.product_id = p.id
-     WHERE s.id = ? AND s.status = 'active' AND starts_at <= NOW() AND ends_at >= NOW()`,
+     WHERE s.id = ? AND s.starts_at <= NOW() AND s.ends_at >= NOW()`,
     [saleId]
   );
   const sale = rows[0];

@@ -2,7 +2,16 @@ import { Kafka } from 'kafkajs';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const kafka = new Kafka({ clientId: 'payment-service', brokers: [process.env.KAFKA_BROKER || 'localhost:9092'] });
+const kafka = new Kafka({
+  clientId: 'payment-service',
+  brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
+  ssl: !!process.env.KAFKA_USERNAME,
+  sasl: process.env.KAFKA_USERNAME ? {
+    mechanism: 'scram-sha-256',
+    username: process.env.KAFKA_USERNAME,
+    password: process.env.KAFKA_PASSWORD!,
+  } : undefined,
+});
 const producer = kafka.producer();
 let connected = false;
 

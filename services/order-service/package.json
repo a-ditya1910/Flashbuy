@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "ts-node-dev --respawn src/index.ts",
-    "consumer": "ts-node-dev --respawn src/kafka/paymentConsumer.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
     "migrate": "ts-node src/db/migrate.ts",
     "seed": "ts-node src/db/seed.ts"
   },

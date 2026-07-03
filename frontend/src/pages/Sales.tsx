@@ -38,10 +38,10 @@ export default function Sales() {
     const pending = Object.entries(orderMap).filter(([, o]) => o.status === 'pending');
     if (!pending.length) return;
     const interval = setInterval(async () => {
-      for (const [, order] of pending) {
+      for (const [saleId, order] of pending) {
         const res = await api.get(`/orders/${order.orderId}`);
         if (res.data.status !== 'pending') {
-          setOrderMap(prev => ({ ...prev, [order.orderId]: res.data }));
+          setOrderMap(prev => ({ ...prev, [saleId]: { orderId: order.orderId, status: res.data.status } }));
         }
       }
     }, 1500);
@@ -81,14 +81,16 @@ export default function Sales() {
                 </div>
                 <p className="stock">{sale.remaining_inventory} / {sale.total_inventory} left · ends in {endsIn}m</p>
 
-                {order ? (
-                  <div className={`order-badge ${order.status}`}>
-                    {order.status === 'pending' ? '⏳ Confirming...' : '✅ Order Confirmed!'}
-                  </div>
+                {order?.status === 'pending' ? (
+                  <div className="order-badge pending">⏳ Confirming...</div>
                 ) : (
-                  <button className="buy-btn" onClick={() => buy(sale.id)} disabled={loading[sale.id] || sale.remaining_inventory === 0}>
-                    {loading[sale.id] ? 'Processing...' : sale.remaining_inventory === 0 ? 'Sold Out' : 'Buy Now'}
-                  </button>
+                  <>
+                    {order?.status === 'confirmed' && <div className="order-badge confirmed" style={{marginBottom:'8px'}}>✅ Order Confirmed!</div>}
+                    {order?.status === 'failed' && <div className="order-badge" style={{background:'#450a0a',color:'#fca5a5',marginBottom:'8px'}}>❌ Payment Failed</div>}
+                    <button className="buy-btn" onClick={() => buy(sale.id)} disabled={loading[sale.id] || sale.remaining_inventory === 0}>
+                      {loading[sale.id] ? 'Processing...' : sale.remaining_inventory === 0 ? 'Sold Out' : 'Buy Now'}
+                    </button>
+                  </>
                 )}
               </div>
             </div>

@@ -9,7 +9,16 @@ dotenv.config();
 import pool from '../db/mysql';
 import redis from '../db/redis';
 
-const kafka = new Kafka({ clientId: 'order-payment-handler', brokers: [process.env.KAFKA_BROKER || 'localhost:9092'] });
+const kafka = new Kafka({
+  clientId: 'order-payment-handler',
+  brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
+  ssl: !!process.env.KAFKA_USERNAME,
+  sasl: process.env.KAFKA_USERNAME ? {
+    mechanism: 'scram-sha-256',
+    username: process.env.KAFKA_USERNAME,
+    password: process.env.KAFKA_PASSWORD!,
+  } : undefined,
+});
 const consumer = kafka.consumer({ groupId: 'order-payment-handler' });
 
 async function run() {

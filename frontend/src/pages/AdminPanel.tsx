@@ -44,8 +44,8 @@ export default function AdminPanel() {
       const res = await api.post('/sales', {
         product_id: Number(sProduct),
         total_inventory: Number(sInventory),
-        starts_at: sStart,
-        ends_at: sEnd,
+        starts_at: new Date(sStart).toISOString(),
+        ends_at: new Date(sEnd).toISOString(),
       });
       setMsg(`Flash sale created — ID: ${res.data.saleId}`);
       setSProduct(''); setSInventory(''); setSStart(''); setSEnd('');

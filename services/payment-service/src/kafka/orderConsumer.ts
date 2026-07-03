@@ -10,7 +10,16 @@ import pool from '../db/mysql';
 import redis from '../db/redis';
 import { publishPaymentResult } from './producer';
 
-const kafka = new Kafka({ clientId: 'payment-order-consumer', brokers: [process.env.KAFKA_BROKER || 'localhost:9092'] });
+const kafka = new Kafka({
+  clientId: 'payment-order-consumer',
+  brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
+  ssl: !!process.env.KAFKA_USERNAME,
+  sasl: process.env.KAFKA_USERNAME ? {
+    mechanism: 'scram-sha-256',
+    username: process.env.KAFKA_USERNAME,
+    password: process.env.KAFKA_PASSWORD!,
+  } : undefined,
+});
 const consumer = kafka.consumer({ groupId: 'payment-processor' });
 
 async function run() {

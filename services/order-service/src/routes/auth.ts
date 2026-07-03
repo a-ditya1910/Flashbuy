@@ -6,12 +6,13 @@ import pool from '../db/mysql';
 const router = Router();
 
 router.post('/register', async (req: Request, res: Response) => {
-  const { email, name, password } = req.body;
+  const { email, name, password, adminCode } = req.body;
   if (!email || !name || !password) { res.status(400).json({ message: 'email, name, password required' }); return; }
+  const role = adminCode && adminCode === process.env.ADMIN_SECRET ? 'admin' : 'user';
   const hash = await bcrypt.hash(password, 10);
   try {
-    const [r]: any = await pool.execute('INSERT INTO users (email, name, password_hash) VALUES (?, ?, ?)', [email, name, hash]);
-    res.status(201).json({ userId: r.insertId });
+    const [r]: any = await pool.execute('INSERT INTO users (email, name, password_hash, role) VALUES (?, ?, ?, ?)', [email, name, hash, role]);
+    res.status(201).json({ userId: r.insertId, role });
   } catch { res.status(409).json({ message: 'Email already registered' }); }
 });
 

@@ -13,14 +13,16 @@ export default function NotificationBell() {
     const token = localStorage.getItem('token');
     if (!token) return;
     try {
-      const r = await fetch('http://localhost:4003/api/notifications', { headers: { Authorization: `Bearer ${token}` } });
+      const base = import.meta.env.VITE_NOTIFICATION_SERVICE_URL || 'http://localhost:4003';
+      const r = await fetch(`${base}/api/notifications`, { headers: { Authorization: `Bearer ${token}` } });
       if (r.ok) setData(await r.json());
     } catch {}
   }
 
   async function markAllRead() {
     const token = localStorage.getItem('token');
-    await fetch('http://localhost:4003/api/notifications/read-all', { method: 'PATCH', headers: { Authorization: `Bearer ${token}` } });
+    const base = import.meta.env.VITE_NOTIFICATION_SERVICE_URL || 'http://localhost:4003';
+    await fetch(`${base}/api/notifications/read-all`, { method: 'PATCH', headers: { Authorization: `Bearer ${token}` } });
     setData(prev => ({ ...prev, unreadCount: 0, notifications: prev.notifications.map(n => ({ ...n, is_read: true })) }));
   }
 
@@ -41,6 +43,12 @@ export default function NotificationBell() {
     if (!open && data.unreadCount > 0) markAllRead();
   }
 
+  const toIST = (utc: string) => {
+    const d = new Date(new Date(utc).getTime() + 330 * 60 * 1000);
+    const h = d.getUTCHours(), m = String(d.getUTCMinutes()).padStart(2, '0');
+    return `${h % 12 || 12}:${m} ${h >= 12 ? 'PM' : 'AM'}`;
+  };
+
   const icon = (type: string) => type === 'payment.success' ? '✅' : '❌';
 
   return (
@@ -58,7 +66,7 @@ export default function NotificationBell() {
               <span>{icon(n.type)}</span>
               <div>
                 <p className="bell-msg">{n.message}</p>
-                <p className="bell-time">{new Date(n.created_at).toLocaleTimeString()}</p>
+                <p className="bell-time">{toIST(n.created_at)}</p>
               </div>
             </div>
           ))}
