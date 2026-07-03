@@ -21,8 +21,8 @@ export default function Orders() {
     setDownloading(orderId);
     try {
       const token = localStorage.getItem('token');
-      // invoice comes from payment-service (port 4002)
-      const res = await fetch(`http://localhost:4002/api/invoice/${orderId}`, {
+      const base = import.meta.env.VITE_PAYMENT_SERVICE_URL || 'http://localhost:4002';
+      const res = await fetch(`${base}/api/invoice/${orderId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) { alert('Invoice not ready yet'); return; }
