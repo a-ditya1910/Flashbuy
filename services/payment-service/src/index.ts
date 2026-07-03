@@ -7,7 +7,8 @@ import paymentRoutes from './routes/payments';
 import invoiceRoutes from './routes/invoice';
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: '*', methods: ['GET','POST','PUT','DELETE','OPTIONS'], allowedHeaders: ['Content-Type','Authorization'] }));
+app.options('*', cors());
 app.use(express.json());
 app.use('/api/payment', paymentRoutes);
 app.use('/api/invoice', invoiceRoutes);
