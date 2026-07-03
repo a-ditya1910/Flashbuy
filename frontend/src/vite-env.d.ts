@@ -3,6 +3,7 @@
 interface ImportMetaEnv {
   readonly VITE_ORDER_SERVICE_URL: string;
   readonly VITE_NOTIFICATION_SERVICE_URL: string;
+  readonly VITE_PAYMENT_SERVICE_URL: string;
 }
 
 interface ImportMeta {
