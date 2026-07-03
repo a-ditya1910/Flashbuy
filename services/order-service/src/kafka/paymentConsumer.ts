@@ -34,7 +34,7 @@ async function run() {
 
       if (type === 'payment.success') {
         await pool.execute(
-          `UPDATE orders SET status = 'confirmed', updated_at = NOW() WHERE id = ? AND status = 'pending'`,
+          `UPDATE orders SET status = 'confirmed' WHERE id = ? AND status = 'pending'`,
           [orderId]
         );
         console.log(`[order-service] order ${orderId} confirmed`);
@@ -42,7 +42,7 @@ async function run() {
 
       if (type === 'payment.failed') {
         await pool.execute(
-          `UPDATE orders SET status = 'failed', updated_at = NOW() WHERE id = ? AND status = 'pending'`,
+          `UPDATE orders SET status = 'failed' WHERE id = ? AND status = 'pending'`,
           [orderId]
         );
         // compensating transaction — give the inventory slot back
